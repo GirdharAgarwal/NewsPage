@@ -1,5 +1,5 @@
 # NewsPage
 
-It is a web page that includes integration of 3rd-party api to provide news articles regarding India.
+It includes integration of 3rd-party api to provide news articles regarding India.
 
-You can checkout the page at :- https://curious-snickerdoodle-0b23ad.netlify.app/
+You can checkout the web-page at :- https://curious-snickerdoodle-0b23ad.netlify.app/
