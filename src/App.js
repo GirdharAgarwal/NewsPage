@@ -1,5 +1,16 @@
 import React from "react";
 import './App.css';
+var axios = require("axios").default;
+
+var options = {
+  method: 'GET',
+  url: 'https://api.newscatcherapi.com/v2/search',
+  params: {q: 'India',lang: 'en', sort_by: 'relevancy', page: '1'},
+  headers: {
+    'x-api-key': '9EI5uwUGbHfS4NKSwBi7b_87EH8qTbZ0Y5yqBFQhF8o'
+  }
+};
+
 class App extends React.Component {
 
 	// Constructor
@@ -15,16 +26,16 @@ class App extends React.Component {
 	// ComponentDidMount is used to
 	// execute the code
 	componentDidMount() {
-		const current = new Date();
-        const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-		fetch("https://newsapi.org/v2/everything?q=tesla&from="+{date}+"&sortBy=publishedAt&apiKey=64a609e61cfd4b69b0b0a90f724a11aa")
-    .then((res) => res.json())
-			.then((json) => {
-				this.setState({
-					items: json.articles,
-					DataisLoaded: true
-				});
-			})
+		var self=this;
+		axios.request(options).then(function (response) {
+			console.log(response.data.articles);
+			self.setState({
+				items: response.data.articles,
+				DataisLoaded: true
+			});
+		}).catch(function (error) {
+			console.error(error);
+		});
 	}
 	render() {
 		const { DataisLoaded, items } = this.state;
@@ -33,21 +44,25 @@ class App extends React.Component {
 
 		return (
 		<div className = "App">
-			<h1 className="head">Articles</h1> {
+			<h1 className="head">Articles on India</h1> {
 				items.map((item) => ( 
-            <div key={item.url.toString()} className="disp-box row">
+            <div key={item._id} className="disp-box row">
 			        <div className="col-md-5">
                        <img className="Image"
-                          src={item.urlToImage} alt="Not found" 
+                          src={item.media} alt="Not found" 
                        />
+					   <p>{item.excerpt}</p>
                     </div>
 					<div className="col-md-7">
 						<h4 className="title">{item.title}</h4>
-						<p>{item.description}</p>
-						<a href={item.url}>
+						<p>{item.summary}</p>
+						<a href={item.link}>
 							To read more..
 						</a>
-						<span className="author">By {item.author}</span>
+						{item.author?
+						  <span className="author">By {item.author}</span> :
+						  <span className="author">By Anonymous</span>
+						}
 					</div>
                     {/* Source Name:{ item.source.name}
                     Published At: {item.publishedAt}
