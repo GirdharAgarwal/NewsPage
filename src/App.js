@@ -48,13 +48,12 @@ class App extends React.Component {
 				items.map((item) => ( 
             <div key={item._id} className="disp-box row">
 			        <div className="col-md-5">
+					   <h4 className="title">{item.title}</h4>
                        <img className="Image"
                           src={item.media} alt="Not found" 
                        />
-					   <p>{item.excerpt}</p>
                     </div>
 					<div className="col-md-7">
-						<h4 className="title">{item.title}</h4>
 						<p>{item.summary}</p>
 						<a href={item.link}>
 							To read more..
