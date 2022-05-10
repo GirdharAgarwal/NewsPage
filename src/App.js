@@ -15,7 +15,9 @@ class App extends React.Component {
 	// ComponentDidMount is used to
 	// execute the code
 	componentDidMount() {
-		fetch("https://newsapi.org/v2/everything?q=tesla&from=2022-04-09&sortBy=publishedAt&apiKey=a0e0e4000ace4640a9b7e45bb2c4bc0d")
+		const current = new Date();
+        const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+		fetch("https://newsapi.org/v2/everything?q=tesla&from="+{date}+"&sortBy=publishedAt&apiKey=64a609e61cfd4b69b0b0a90f724a11aa")
     .then((res) => res.json())
 			.then((json) => {
 				this.setState({
@@ -31,18 +33,26 @@ class App extends React.Component {
 
 		return (
 		<div className = "App">
-			<h1> Fetch data from an api in react </h1> {
+			<h1 className="head">Articles</h1> {
 				items.map((item) => ( 
-            <p key={item.url.toString()} className="content">
-                    Source Name:{ item.source.name},
-                    Author: { item.author}, 
-                    Title: { item.title }, 
-                    Description: { item.description } ,
-                    Url: { item.url},
-                    Image: {item.urlToImage},
-                    Published At: {item.publishedAt},
-                    Content: {item.content}
-            </p>
+            <div key={item.url.toString()} className="disp-box row">
+			        <div className="col-md-5">
+                       <img className="Image"
+                          src={item.urlToImage} alt="Not found" 
+                       />
+                    </div>
+					<div className="col-md-7">
+						<h4 className="title">{item.title}</h4>
+						<p>{item.description}</p>
+						<a href={item.url}>
+							To read more..
+						</a>
+						<span className="author">By {item.author}</span>
+					</div>
+                    {/* Source Name:{ item.source.name}
+                    Published At: {item.publishedAt}
+                    Content: {item.content} */}
+            </div>
         ))
 			}
 		</div>
